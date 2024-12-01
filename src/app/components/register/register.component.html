@@ -1,0 +1,57 @@
+<div class="regiter-container">
+  <div class="card ">
+    <div class="card-body">
+      <form (ngSubmit)="register()">
+        <!-- Champ Nom -->
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input type="text" id="nom" class="form-control" [(ngModel)]="nom" name="nom" [ngClass]="!nom ? 'is-invalid' : ''" >
+        </div>
+
+        <!-- Champ Prénom -->
+        <div class="mb-3">
+          <label for="prenom" class="form-label">Prénom</label>
+          <input type="text" id="prenom" class="form-control" [(ngModel)]="prenom" name="prenom" >
+        </div>
+
+        <!-- Champ Téléphone -->
+        <div class="mb-3">
+          <label for="telephone" class="form-label">Téléphone</label>
+          <input type="tel" id="telephone" class="form-control" [(ngModel)]="telephone" name="telephone" >
+        </div>
+
+        <!-- Champ Adresse -->
+        <div class="mb-3">
+          <label for="adresse" class="form-label">Adresse</label>
+          <textarea type="text" id="adresse" class="form-control" [(ngModel)]="adresse" name="adresse" [ngClass]="!adresse ? 'is-invalid' : ''" ></textarea>
+        </div>
+
+        <!-- Champ Rôle -->
+        <div class="mb-3">
+          <label for="role" class="form-label">Vous êtes :</label>
+          <select id="role" class="form-select" [(ngModel)]="role" name="role">
+            <option value="0">Vendeur</option>
+            <option value="1">Acheteur</option>
+          </select>
+        </div>
+
+        <!-- Champ Mot de passe -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" [ngClass]="!password || password.length < 5 ? 'is-invalid' : ''" >
+        </div>
+
+        <!-- Champ Confirmation du mot de passe -->
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+          <input type="password" id="confirmPassword" class="form-control" [ngClass]="!confirmPassword || confirmPassword.length < 5 || confirmPassword != password ? 'is-invalid' : ''" [(ngModel)]="confirmPassword"
+            name="confirmPassword" >
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary" [disabled]="disableRegister()">S'inscrire</button>
+          <button type="button" class="btn btn-link" (click)="login()" >Retour à la page d'identification</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

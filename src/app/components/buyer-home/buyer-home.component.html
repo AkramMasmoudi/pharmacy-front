@@ -1,0 +1,119 @@
+<div class="buyer-home-container">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="filters p-3 pt-0 rounded text-center">
+        <div class="d-flex justify-content-center align-items-center">
+          <h5>Filtres</h5>
+        </div>
+        <form>
+          <!-- Filtre par nom -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Nom contient</label>
+            <input type="text" (input)="applyFilters()" id="name" class="form-control" [(ngModel)]="nameFilter"
+              name="name">
+          </div>
+
+          <!-- Filtre par description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description contient</label>
+            <input type="text" (input)="applyFilters()" id="description" class="form-control"
+              [(ngModel)]="descriptionFilter" name="description">
+          </div>
+
+          <!-- Filtre par image -->
+          <div class="mb-3">
+            <label class="form-label" for="imageFilter">Avec image :</label>
+            <select class="form-select" (change)="applyFilters()" id="imageFilter" [(ngModel)]="imageFilter"
+              name="image">
+              <option value="">Tous</option>
+              <option value="true">Avec image</option>
+              <option value="false">Sans image</option>
+            </select>
+          </div>
+
+          <!-- Filtre par quantité -->
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantité</label>
+            <div class="row">
+              <div class="col-6 pe-0">
+                <input type="number" (input)="applyFilters()" id="quantity" class="form-control"
+                  [(ngModel)]="quantityFilterMin" placeholder="min" name="quantity" min="0">
+              </div>
+              <div class="col-6 ps-0">
+                <input type="number" (input)="applyFilters()" id="quantity" class="form-control"
+                  [(ngModel)]="quantityFilterMax" placeholder="max" name="quantity" min="0">
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtre par prix -->
+          <div class="mb-3">
+            <label for="price" class="form-label">Prix</label>
+            <div class="row">
+              <div class="col-6 pe-0">
+                <input type="number" (input)="applyFilters()" id="price" class="form-control "
+                  [(ngModel)]="priceFilterMin" placeholder="min" name="price" min="0">
+              </div>
+              <div class="col-6 ps-0">
+                <input type="number" (input)="applyFilters()" id="price" class="form-control "
+                  [(ngModel)]="priceFilterMax" placeholder="max" name="price" min="0">
+              </div>
+            </div>
+          </div>
+
+          <button *ngIf="!filterIsActivated" type="button" class="btn btn-success w-100"
+            (click)="applyFiltersBtn()">Appliquer les filtres</button>
+          <button *ngIf="filterIsActivated" type="button" class="btn btn-danger w-100"
+            (click)="desactivateFilters()">Désactiver les filtres</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-10" style="height: calc(100vh - 60px) ;overflow: auto;">
+      <div *ngIf="products.length > 0; else emptyCard">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+          <div class="col" *ngFor="let p of filteredProducts">
+            <div class="card h-100">
+              <div class="img-container">
+                <img *ngIf="!!p.imageBase64" [src]="'data:image/png;base64,' + p.imageBase64" class="card-img-top"
+                  alt="product">
+                <img *ngIf="!p.imageBase64" src="https://via.placeholder.com/300" class="card-img-top" alt="product">
+              </div>
+              <div class="card-body pt-0 pb-0">
+                <div class="d-flex justify-content-center">
+                  <h5 class="mb-2">{{p.name}}</h5>
+                </div>
+                <p class="card-text">{{p.description}}</p>
+                <p class="card-text">
+                  <strong>Prix :</strong> {{p.price | currency:'EUR'}}<br>
+                  <strong>Quantité :</strong> {{p.quantity}}
+                </p>
+              </div>
+              <div class="card-footer d-flex justify-content-between pt-2 pb-2">
+                <button class="btn btn-primary btn-sm"  (click)="addToCart(p)"  title="Ajouter au panier"><i class="bi bi-cart-plus"></i> Ajouter au panier </button>
+                <!--<button class="btn btn-outline-light  btn-sm" (click)="addToFavorites(p)" title="J'aime"><i class="bi bi-heart text-warning"></i> </button>
+                <button class="btn btn-outline-light  btn-sm" (click)="addToFavorites(p)" title="Je n'aime plus"><i class="bi bi-heart-fill text-warning"></i> </button>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #emptyCard>
+        <div class="row row-cols-1 row-cols-md-6 g-4">
+          <div class="col">
+            <div class="card h-100">
+              <div class="img-container">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="product">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Aucun produit disponible</h5>
+                <p class="card-text">Vous n'avez pas encore de produits. Cliquez sur le bouton "Ajouter Produit" pour
+                  en
+                  créer un.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

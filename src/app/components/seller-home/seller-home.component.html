@@ -1,0 +1,183 @@
+<div class="seller-home-container">
+  <div class="button-container position-fixed top-0 start-0 p-3 d-flex align-items-center">
+    <!-- Bouton Liste des Produits -->
+    <button class="btn me-2 d-flex align-items-center"
+      [ngClass]="activeButton == 'list' ? 'btn-outline-primary' : 'btn-primary'" [disabled]="activeButton == 'list'"
+      (click)="showProducts()">
+      <i class="bi bi-list-ul me-2"></i> <!-- Icône de liste -->
+      Mes Produits
+    </button>
+
+    <!-- Bouton Ajouter un Produit -->
+    <button class="btn d-flex align-items-center"
+      [ngClass]="activeButton == 'add' ? 'btn-outline-success' : 'btn-success'" [disabled]="activeButton == 'add'"
+      (click)="showAddProduct()">
+      <i class="bi bi-plus-circle me-2"></i> <!-- Icône d'ajout -->
+      Ajouter Produit
+    </button>
+    <span *ngIf="filterIsActivated" class="badge rounded-pill bg-warning text-dark ms-1">Filtres Activés</span>
+    <span *ngIf="!filterIsActivated" class="badge rounded-pill bg-info text-dark ms-1">Filtres Non Activés</span>
+  </div>
+  <div *ngIf="activeButton == 'list'">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="filters p-3 rounded text-center">
+          <div class="d-flex justify-content-center align-items-center">
+            <h5>Filtres</h5>
+          </div>
+
+          <form>
+            <!-- Filtre par nom -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom contient</label>
+              <input type="text" (input)="applyFilters()" id="name" class="form-control" [(ngModel)]="nameFilter" name="name">
+            </div>
+
+            <!-- Filtre par description -->
+            <div class="mb-3">
+              <label for="description" class="form-label">Description contient</label>
+              <input type="text" (input)="applyFilters()" id="description" class="form-control" [(ngModel)]="descriptionFilter"
+                name="description">
+            </div>
+
+            <!-- Filtre par image -->
+            <div class="mb-3">
+              <label class="form-label" for="imageFilter">Avec image :</label>
+              <select class="form-select" (change)="applyFilters()" id="imageFilter" [(ngModel)]="imageFilter" name="image">
+                <option value="">Tous</option>
+                <option value="true">Avec image</option>
+                <option value="false">Sans image</option>
+              </select>
+            </div>
+
+            <!-- Filtre par quantité -->
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantité</label>
+              <div class="row">
+                <div class="col-6 pe-0">
+                  <input type="number" (input)="applyFilters()" id="quantity" class="form-control" [(ngModel)]="quantityFilterMin"
+                    placeholder="min" name="quantity" min="0">
+                </div>
+                <div class="col-6 ps-0">
+                  <input type="number" (input)="applyFilters()" id="quantity" class="form-control" [(ngModel)]="quantityFilterMax"
+                    placeholder="max" name="quantity" min="0">
+                </div>
+              </div>
+            </div>
+
+            <!-- Filtre par prix -->
+            <div class="mb-3">
+              <label for="price" class="form-label">Prix</label>
+              <div class="row">
+                <div class="col-6 pe-0">
+                  <input type="number" (input)="applyFilters()" id="price" class="form-control " [(ngModel)]="priceFilterMin" placeholder="min"
+                    name="price" min="0">
+                </div>
+                <div class="col-6 ps-0">
+                  <input type="number" (input)="applyFilters()" id="price" class="form-control " [(ngModel)]="priceFilterMax" placeholder="max"
+                    name="price" min="0">
+                </div>
+              </div>
+            </div>
+
+            <button *ngIf="!filterIsActivated" type="button" class="btn btn-success w-100" (click)="applyFiltersBtn()">Appliquer les filtres</button>
+            <button *ngIf="filterIsActivated" type="button" class="btn btn-danger w-100" (click)="desactivateFilters()">Désactiver les filtres</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-10" style="height: calc(100vh - 60px) ;overflow: auto;">
+        <div *ngIf="products.length > 0; else emptyCard">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+            <div class="col" *ngFor="let p of filteredProducts">
+              <div class="card h-100">
+                <div class="img-container">
+                  <img *ngIf="!!p.imageBase64" [src]="'data:image/png;base64,' + p.imageBase64" class="card-img-top"
+                    alt="product">
+                  <img *ngIf="!p.imageBase64" src="https://via.placeholder.com/300" class="card-img-top" alt="product">
+                </div>
+                <div class="card-body pt-0 pb-0">
+                  <div class="d-flex justify-content-center">
+                    <h5 class="mb-2">{{p.name}}</h5>
+                  </div>
+                  <p class="card-text">{{p.description}}</p>
+                  <p class="card-text">
+                    <strong>Prix :</strong> {{p.price | currency:'EUR'}}<br>
+                    <strong>Quantité :</strong> {{p.quantity}}
+                  </p>
+                </div>
+                <div class="card-footer d-flex justify-content-between pt-2 pb-2">
+                  <button class="btn btn-primary btn-sm" (click)="editProduct(p)" title="Modifier"><i
+                      class="bi bi-pencil"></i> </button>
+                  <button class="btn btn-danger btn-sm" (click)="confirmDelete(p.id)" title="Supprimer"><i
+                      class="bi bi-trash"></i> </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #emptyCard>
+          <div class="row row-cols-1 row-cols-md-6 g-4">
+            <div class="col">
+              <div class="card h-100">
+                <div class="img-container">
+                  <img src="https://via.placeholder.com/300" class="card-img-top" alt="product">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Aucun produit disponible</h5>
+                  <p class="card-text">Vous n'avez pas encore de produits. Cliquez sur le bouton "Ajouter Produit" pour
+                    en
+                    créer un.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <!-- add product -->
+  <div *ngIf="activeButton == 'add'">
+    <div class="card card-add-product">
+      <div class="card-body">
+        <form (ngSubmit)="addProduct()">
+          <div class="mb-3">
+            <label for="newProductname" class="form-label">Nom</label>
+            <input type="text" id="newProductname" class="form-control" [(ngModel)]="newProduct.name"
+              [ngClass]="!newProduct.name ? 'is-invalid' : ''" name="newProductname">
+          </div>
+          <div class="mb-3">
+            <label for="newProductdescription" class="form-label">Description</label>
+            <textarea id="newProductdescription" class="form-control" [(ngModel)]="newProduct.description"
+              [ngClass]="!newProduct.description ? 'is-invalid' : ''" name="newProductdescription"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="newProductquantity" class="form-label">Quantité</label>
+            <input type="number" min="0" id="newProductquantity" class="form-control" [(ngModel)]="newProduct.quantity"
+              name="newProductquantity" [ngClass]="!validateQte() ? 'is-invalid' : ''">
+          </div>
+          <div class="mb-3">
+            <label for="newProductprice" class="form-label">Prix</label>
+            <input type="number" min="0" step="1" id="newProductprice" class="form-control"
+              [(ngModel)]="newProduct.price" name="newProductprice"
+              [ngClass]="newProduct.price > 0 ? '' : 'is-invalid'">
+          </div>
+          <div class="mb-3">
+            <label for="newProductimageBase64" class="form-label">
+              Choisissez une image pour le produit
+              <small class="text-muted">(Taille recommandée : 300px × 300px pour un meilleur affichage)</small>
+            </label>
+            <input type="file" id="newProductimageBase64" #newProductimageBase64 class="form-control"
+              (change)="onFileChange($event)" name="newProductimageBase64">
+          </div>
+          <div class="mb-3" *ngIf="imagePreview">
+            <p>Aperçu de l'image :</p>
+            <img [src]="imagePreview" class="img-fluid" alt="preview" style="max-height: 200px;">
+          </div>
+          <button type="submit" class="btn btn-primary"
+            [disabled]="!newProduct.name || !newProduct.description || newProduct.price <= 0 || !validateQte()">Ajouter</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

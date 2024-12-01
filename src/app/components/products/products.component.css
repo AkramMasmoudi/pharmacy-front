@@ -1,0 +1,16 @@
+.product-container{
+  height: 100vh;
+  overflow-y: auto;
+  background-image: url('../../../../public/imgs/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.icon-container {
+  z-index: 1000;
+  i {
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: #2196F3;
+  }
+}

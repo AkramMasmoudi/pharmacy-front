@@ -1,0 +1,24 @@
+<div class="product-container">
+  <div class="icon-container position-fixed top-0 end-0 p-3 d-flex align-items-center">
+    <!-- Icone Profil -->
+    <a (click)="navigateTo('/profile')" class="text-decoration-none mx-3" title="Profil">
+      <i class="bi bi-person-circle" ></i>
+    </a>
+
+    <!-- Icone Panier -->
+    <a (click)="navigateTo('/cart')" class="text-decoration-none mx-3 position-relative" title="Panier" *ngIf="user.role == 1">
+      <i class="bi bi-cart3"></i>
+      <!-- Badge pour le nombre d'articles -->
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{nbProduct}}
+      </span>
+    </a>
+
+    <!-- Icone Logout -->
+    <a (click)="logout()" class="text-decoration-none mx-3" title="Déconnexion">
+      <i class="bi bi-box-arrow-right" ></i>
+    </a>
+  </div>
+  <app-buyer-home (cartSize)="nbProduct = $event" *ngIf="user.role == 1"></app-buyer-home>
+  <app-seller-home *ngIf="user.role == 0"></app-seller-home>
+</div>

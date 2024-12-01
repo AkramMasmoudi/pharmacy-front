@@ -1,0 +1,40 @@
+.seller-home-container{
+  padding-top: 60px;
+  padding-bottom: 30px;
+  padding-right: 30px;
+  height: 100vh;
+}
+.btn.btn-outline-primary,.btn.btn-outline-success{
+  font-weight : 700;
+}
+
+.button-container{
+  z-index: 1000;
+}
+
+.img-container{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  max-width: 300px;
+  height: 300px;
+  overflow: auto;
+  img {
+    height: 300px;
+  }
+}
+
+.card.card-add-product{
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  width: 50%;
+  background-color: #F5F5F5;
+}
+
+.filters form > div{
+  font-weight: 600;
+}
+.filters h5{
+  text-decoration: underline;
+}

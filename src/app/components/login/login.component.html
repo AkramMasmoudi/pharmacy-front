@@ -1,0 +1,27 @@
+<div class="login-container">
+  <div class="card ">
+    <div class="card-body">
+      <form (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Identifiant (votre nom)</label>
+          <input type="text" id="username" class="form-control" [(ngModel)]="username" name="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
+        </div>
+        <div class="mb-3">
+          <label for="role" class="form-label">Je suis </label>
+          <select id="role" class="form-select" [(ngModel)]="role" name="role">
+            <option value="0">Vendeur</option>
+            <option value="1">Acheteur</option>
+          </select>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">S'identifier</button>
+          <button type="button" class="btn btn-link" (click)="register()">Créer un compte</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

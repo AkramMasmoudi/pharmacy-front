@@ -1,0 +1,50 @@
+<div class="profile-container">
+  <div class="card ">
+    <div class="card-body">
+      <div class="row mb-2">
+        <div class="col-12 d-flex justify-content-end">
+          <button type="button" class="btn btn-primary btn-sm" [disabled]="modifiables"  (click)="modifierProfile()">Modifier mes données</button>
+        </div>
+      </div>
+      <form (ngSubmit)="updateProfile()">
+        <!-- Champ Nom -->
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input type="text" id="nom" class="form-control" [disabled]="!modifiables" [(ngModel)]="currentUser.username" name="nom" [ngClass]="!currentUser.username ? 'is-invalid' : ''" >
+        </div>
+
+        <!-- Champ Prénom -->
+        <div class="mb-3">
+          <label for="prenom" class="form-label">Prénom</label>
+          <input type="text" id="prenom" class="form-control" [disabled]="!modifiables" [(ngModel)]="currentUser.userSecondName" name="prenom" >
+        </div>
+
+        <!-- Champ Téléphone -->
+        <div class="mb-3">
+          <label for="telephone" class="form-label">Téléphone</label>
+          <input type="tel" id="telephone" class="form-control" [disabled]="!modifiables" [(ngModel)]="currentUser.tel" name="telephone" >
+        </div>
+
+        <!-- Champ Adresse -->
+        <div class="mb-3">
+          <label for="adresse" class="form-label">Adresse</label>
+          <textarea type="text" id="adresse" class="form-control" [disabled]="!modifiables" [(ngModel)]="currentUser.adress" name="adresse" [ngClass]="!currentUser.adress ? 'is-invalid' : ''" ></textarea>
+        </div>
+
+        <!-- Champ Rôle -->
+        <div class="mb-3">
+          <label for="role" class="form-label">Vous êtes :</label>
+          <select id="role" class="form-select" disabled [ngModel]="currentUser.role" name="role">
+            <option value="0">Vendeur</option>
+            <option value="1">Acheteur</option>
+          </select>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary" [disabled]="disableSave()">Enregistrer</button>
+          <button type="button" class="btn btn-link" (click)="gotoProducts()" >Retour à la page des produits</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="regiter-container">
+  <div class="card ">
+    <div class="card-body">
+      <h2>Panier</h2>
+      <ul class="list-group mb-2">
+        <li *ngFor="let c of cart" class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="item-info">
+            <h5>Produit  : {{ c.product?.name }}</h5>
+            <p>Quantité : {{c.quantity}}</p>
+            <p>Prix : {{ getTotalProduit(c)}} €</p>
+          </div>
+          <button class="btn btn-danger " (click)="removeProductFromCart(c.buyerId,c.productId)"><i class="bi bi-trash"></i></button>
+        </li>
+      </ul>
+      <div class="d-flex justify-content-end mb-3">
+        <h4>Total du panier : {{ calculateTotalPrice() }} €</h4>
+      </div>
+      <div class="d-flex justify-content-end align-items-center">
+        <button type="button" class="btn btn-success ms-2" (click)="validerlepanier()"><i class="bi bi-credit-card"></i> Valider le panier</button>
+        <button type="button" class="btn btn-danger ms-2" (click)="clearCart()"><i class="bi bi-trash"></i> Vider le panier</button>
+        <button type="button" class="btn btn-link ms-2" (click)="navigateTo('products')">Retour à la page
+          d'identification</button>
+      </div>
+    </div>
+  </div>
+</div>
